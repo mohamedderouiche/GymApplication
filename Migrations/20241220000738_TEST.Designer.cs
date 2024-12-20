@@ -3,7 +3,6 @@ using System;
 using GymApplication.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -12,17 +11,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GymApplication.Migrations
 {
     [DbContext(typeof(GymDbContext))]
-    [Migration("20241215200426_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241220000738_TEST")]
+    partial class TEST
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.32")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
-
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("GymApplication.Repository.Models.Abonnement", b =>
                 {
@@ -31,17 +28,15 @@ namespace GymApplication.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id_abonnement");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAbonnement"), 1L, 1);
-
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
                         .HasColumnName("created_at")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Date")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("longtext")
                         .HasColumnName("date");
 
                     b.Property<int>("PaiementFk")
@@ -57,23 +52,23 @@ namespace GymApplication.Migrations
                     b.Property<string>("Statut")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasColumnType("varchar(50)")
                         .HasColumnName("statut");
 
                     b.Property<string>("TypeAbonnement")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasColumnType("varchar(50)")
                         .HasColumnName("type_abonnement");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
                         .HasColumnName("updated_at")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.HasKey("IdAbonnement")
-                        .HasName("PK__Abonneme__395058AB06AC8C7D");
+                        .HasName("PK__Abonnement");
 
                     b.HasIndex("PaiementsIdPaiement");
 
@@ -87,23 +82,21 @@ namespace GymApplication.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id_contact");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdContact"), 1L, 1);
-
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime")
                         .HasColumnName("created_at");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Nom")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("IdContact");
 
@@ -117,36 +110,34 @@ namespace GymApplication.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id_cours");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCours"), 1L, 1);
-
                     b.Property<DateTime>("CourseDate")
-                        .HasColumnType("datetime2")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("course_date");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("longtext")
                         .HasColumnName("description");
 
                     b.Property<TimeSpan>("Duree")
-                        .HasColumnType("time")
+                        .HasColumnType("time(6)")
                         .HasColumnName("duree");
 
                     b.Property<string>("ImagePath")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("InstructorName")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("instructor_name");
 
                     b.Property<string>("Nom")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("nom");
 
                     b.HasKey("IdCours")
-                        .HasName("PK__Cours__7927EBB9D64C6A59");
+                        .HasName("PK__Cours");
 
                     b.ToTable("Cours");
                 });
@@ -158,47 +149,45 @@ namespace GymApplication.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id_evenement");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdEvenement"), 1L, 1);
-
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
                         .HasColumnName("created_at")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime")
                         .HasColumnName("date");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("longtext")
                         .HasColumnName("description");
 
                     b.Property<TimeSpan>("HeureDebut")
-                        .HasColumnType("time")
+                        .HasColumnType("time(6)")
                         .HasColumnName("heure_debut");
 
                     b.Property<TimeSpan>("HeureFin")
-                        .HasColumnType("time")
+                        .HasColumnType("time(6)")
                         .HasColumnName("heure_fin");
 
                     b.Property<string>("ImagePath")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Nom")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("nom");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
                         .HasColumnName("updated_at")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.HasKey("IdEvenement")
-                        .HasName("PK__Evenemen__F6BFCE778F3DA503");
+                        .HasName("PK__Evenement");
 
                     b.ToTable("Evenement");
                 });
@@ -210,65 +199,64 @@ namespace GymApplication.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id_paiement");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdPaiement"), 1L, 1);
-
                     b.Property<string>("Cin")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
+                        .HasColumnType("varchar(20)")
                         .HasColumnName("cin");
 
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
                         .HasColumnName("created_at")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("DureeAbonnement")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("longtext")
                         .HasColumnName("duree_abonnement");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("email");
 
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("full_Name");
 
                     b.Property<string>("OperationId")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("operation_id");
 
                     b.Property<decimal>("Prixabonnement")
-                        .HasColumnType("decimal(18,2)")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)")
                         .HasColumnName("prix_abonnement");
 
                     b.Property<string>("TypeAbonnement")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("varchar(100)")
                         .HasColumnName("type_abonnement");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
                         .HasColumnName("updated_at")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<bool>("Visibility")
-                        .HasColumnType("bit")
+                        .HasColumnType("tinyint(1)")
                         .HasColumnName("visibility");
 
                     b.HasKey("IdPaiement")
-                        .HasName("PK__Paiement__72D44CFF086B29B8");
+                        .HasName("PK__Paiement");
 
                     b.ToTable("Paiement");
                 });
@@ -280,55 +268,53 @@ namespace GymApplication.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id_utilisateur");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdUtilisateur"), 1L, 1);
-
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
                         .HasColumnName("created_at")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("email");
 
                     b.Property<string>("MotDePasse")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("mot_de_passe");
 
                     b.Property<string>("Nom")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("varchar(100)")
                         .HasColumnName("nom");
 
                     b.Property<string>("Prenom")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("varchar(100)")
                         .HasColumnName("prenom");
 
                     b.Property<DateTime>("ResetPasswordExpiry")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("ResetPasswordToken")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Token")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
                         .HasColumnName("updated_at")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.HasKey("IdUtilisateur")
-                        .HasName("PK__Utilisat__1A4FA5B8F3C735FF");
+                        .HasName("PK__Utilisateur");
 
                     b.HasIndex(new[] { "Email" }, "UQ__Utilisat__AB6E6164DFB2DE3B")
                         .IsUnique();

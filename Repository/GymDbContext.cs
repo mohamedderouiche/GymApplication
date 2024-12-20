@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using GymApplication.Repository.Models;
 
 namespace GymApplication.Repository
@@ -21,7 +20,6 @@ namespace GymApplication.Repository
         public virtual DbSet<Cour> Cours { get; set; } = null!;
         public virtual DbSet<Evenement> Evenements { get; set; } = null!;
         public virtual DbSet<Paiement> Paiements { get; set; } = null!;
-
         public virtual DbSet<Contact> Contacts { get; set; } = null!;
         public virtual DbSet<Utilisateur> Utilisateurs { get; set; } = null!;
 
@@ -29,81 +27,64 @@ namespace GymApplication.Repository
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("mssql-189130-0.cloudclusters.net");
+                var connectionString = "Server=bocmacg43pnigkdh0iwj-mysql.services.clever-cloud.com;Database=bocmacg43pnigkdh0iwj;User=ukj0ay3tvltyuppg;Password=U6RKSgKTjasfZQofwREM;";
+                var serverVersion = ServerVersion.AutoDetect(connectionString); // Détection automatique de la version
+                optionsBuilder.UseMySql(connectionString, serverVersion); // Utilisation de MySQL
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Abonnement>(entity =>
+            {
+                entity.HasKey(e => e.IdAbonnement).HasName("PK__Abonnement");
 
+                entity.Property(e => e.CreatedAt)
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                    modelBuilder.Entity<Abonnement>(entity =>
-                    {
-                        entity.HasKey(e => e.IdAbonnement)
-                            .HasName("PK__Abonneme__395058AB06AC8C7D");
-
-                        entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
-
-                        entity.Property(e => e.UpdatedAt).HasDefaultValueSql("(getdate())");
-
-              
-                    });
-
+                entity.Property(e => e.UpdatedAt)
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+            });
 
             modelBuilder.Entity<Cour>(entity =>
             {
-                entity.HasKey(e => e.IdCours)
-                    .HasName("PK__Cours__7927EBB9D64C6A59");
+                entity.HasKey(e => e.IdCours).HasName("PK__Cours");
             });
 
             modelBuilder.Entity<Evenement>(entity =>
             {
-                entity.HasKey(e => e.IdEvenement)
-                    .HasName("PK__Evenemen__F6BFCE778F3DA503");
+                entity.HasKey(e => e.IdEvenement).HasName("PK__Evenement");
 
-                entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
+                entity.Property(e => e.CreatedAt)
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                entity.Property(e => e.UpdatedAt).HasDefaultValueSql("(getdate())");
+                entity.Property(e => e.UpdatedAt)
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
 
             modelBuilder.Entity<Paiement>(entity =>
             {
-                entity.HasKey(e => e.IdPaiement)
-                    .HasName("PK__Paiement__72D44CFF086B29B8");
+                entity.HasKey(e => e.IdPaiement).HasName("PK__Paiement");
 
-                entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
+                entity.Property(e => e.CreatedAt)
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                entity.Property(e => e.UpdatedAt).HasDefaultValueSql("(getdate())");
+                entity.Property(e => e.UpdatedAt)
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-             
+                entity.Property(e => e.Prixabonnement)
+                    .HasPrecision(10, 2); // Spécifiez la précision : 10 chiffres dont 2 après la virgule
             });
-
-
-            modelBuilder.Entity<Paiement>(entity =>
-            {
-                entity.HasKey(e => e.IdPaiement)
-                    .HasName("PK__Paiement__72D44CFF086B29B8");
-
-                entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.UpdatedAt).HasDefaultValueSql("(getdate())");
-
-              
-
-              
-            });
-
-          
 
             modelBuilder.Entity<Utilisateur>(entity =>
             {
-                entity.HasKey(e => e.IdUtilisateur)
-                    .HasName("PK__Utilisat__1A4FA5B8F3C735FF");
+                entity.HasKey(e => e.IdUtilisateur).HasName("PK__Utilisateur");
 
-                entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
+                entity.Property(e => e.CreatedAt)
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                entity.Property(e => e.UpdatedAt).HasDefaultValueSql("(getdate())");
+                entity.Property(e => e.UpdatedAt)
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
 
             OnModelCreatingPartial(modelBuilder);
