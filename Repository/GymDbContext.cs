@@ -72,8 +72,9 @@ namespace GymApplication.Repository
                 entity.Property(e => e.UpdatedAt)
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                entity.Property(e => e.Prixabonnement)
-                    .HasPrecision(10, 2); // Spécifiez la précision : 10 chiffres dont 2 après la virgule
+     entity.Property(p => p.Prixabonnement)
+    .HasColumnType("decimal(18,2)"); // Adjust precision and scale as necessary
+
             });
 
             modelBuilder.Entity<Utilisateur>(entity =>
